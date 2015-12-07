@@ -1,5 +1,3 @@
-cd C:\Users\OscAr\Desktop
-
 del *.obj
 del *.o
 

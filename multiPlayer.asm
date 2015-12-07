@@ -1,14 +1,25 @@
+%macro printing 1
+    push %1
+    call _printf
+    add esp, 4
+%endmacro 
+%macro leer 2
+    push %1
+    push %2
+    call _scanf
+    add esp, 8
+ %endmacro    
+    
 extern _printf
 extern _scanf
 
     size equ 4
 section .data
-    msgA: db "Gano el jugador 1",10,0
-    msgB: db "Gano el jugador 2",10,0
-    msgD: db "El juego finaliza sin ganadores :(",10,0
     message1: db "Jugador 1, ingrese un valor:",10,0
     message2: db "Jugador 2, ingrese un valor:",10,0
-    msgSalida: db "Fin del juego",10,0
+    msgA: db "Gano el jugador 1",10,"Fin del juego",10,0
+    msgB: db "Gano el jugador 2",10,"Fin del juego",10,0
+    msgD: db "El juego finaliza sin ganadores :(",10,0
     cambioLinea: db 10,0
     formato: db "%d",0
     fmt: db "%c ",0
@@ -31,9 +42,7 @@ section .text
     call imprimir
     
  interaccion:    
-    
-    call estadoJuego 
-    
+    call estadoJuego     
     call jugar1
     call estadoJuego
     cmp dword [stop], 1
@@ -70,9 +79,7 @@ section .text
     jmp interaccion
     
  match:
-    push msgD
-    call _printf
-    add esp,4
+    printing msgD
     jmp end
 
 end:
@@ -110,9 +117,7 @@ ret
             add dword[count], size
             pop ecx
             loop interno1
-        push cambioLinea
-        call _printf
-        add esp, 4
+        printing cambioLinea
         mov ecx, ebx
         pop ecx   
         loop externo1
@@ -120,15 +125,8 @@ ret
 
 ;------------------------------------------------ 
  jugar1:
-    push message1
-    call _printf
-    add esp, 4
-      
-    push posicion
-    push formato
-    call _scanf
-    add esp, 8
-    
+    printing message1      
+    leer posicion, formato 
     mov eax, -4
     mov ecx, [posicion]
     llenarPosP1:
@@ -145,14 +143,8 @@ ret
 ;------------------------------------------------     
  jugar2:
     
-    push message2
-    call _printf
-    add esp, 4
-      
-    push posicion
-    push formato
-    call _scanf
-    add esp, 8
+    printing message2
+    leer posicion, formato 
     
     mov eax, -4
     mov ebx, 49
@@ -252,22 +244,15 @@ estadoJuego:
     jmp fin
     
  player1:
-    push msgA
-    call _printf
-    add esp,4
+    printing msgA
     mov eax, 1
     mov [stop], eax
     jmp fin
         
  player2:
-    push msgB
-    call _printf
-    add esp,4
+    printing msgB
     mov eax, 1
     mov [stop], eax
     jmp fin
-
-
  fin:
-
 ret

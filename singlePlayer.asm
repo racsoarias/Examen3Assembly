@@ -1,14 +1,30 @@
+%macro printing 1
+    push %1
+    call _printf
+    add esp, 4
+%endmacro 
+%macro leer 2
+    push %1
+    push %2
+    call _scanf
+    add esp, 8
+%endmacro 
+%macro intArt 2
+    mov dword [posicion], %1
+    cmp dword [gato + %2],48+%1
+    je juega 
+%endmacro
+
 extern _printf
 extern _scanf
 
     size equ 4
 section .data
-    msgA: db "Gano el jugador 1",10,0
-    msgB: db "Gano la computadora",10,0
-    msgD: db "El juego finaliza sin ganadores :(",10,0
     message1: db "Jugador 1, ingrese un valor:",10,0
     message2: db "La computadora ha jugado en %d",10,0
-    msgSalida: db "Fin del juego",10,0
+    msgA: db "Gano el jugador 1",10,"Fin del juego",10,0
+    msgB: db "Gano la computadora",10,"Fin del juego",10,0
+    msgD: db "El juego finaliza sin ganadores :(",10,0
     cambioLinea: db 10,0
     formato: db "%d",0
     fmt: db "%c ",0
@@ -31,9 +47,7 @@ section .text
     call imprimir
     
  interaccion:    
-    
     call estadoJuego 
-   
     call jugar1
     call estadoJuego
     cmp dword [stop], 1
@@ -58,9 +72,7 @@ section .text
     jmp interaccion
     
  match:
-    push msgD
-    call _printf
-    add esp,4
+    printing msgD
     jmp end
 
 end: 
@@ -98,9 +110,7 @@ ret
             add dword[count], size
             pop ecx
             loop interno1
-        push cambioLinea
-        call _printf
-        add esp, 4
+        printing cambioLinea
         mov ecx, ebx
         pop ecx   
         loop externo1
@@ -108,14 +118,8 @@ ret
 
 ;------------------------------------------------ 
  jugar1:
-    push message1
-    call _printf
-    add esp, 4
-      
-    push posicion
-    push formato
-    call _scanf
-    add esp, 8
+    printing message1      
+    leer posicion, formato 
     
     mov eax, -4
     mov ecx, [posicion]
@@ -132,34 +136,15 @@ ret
     
 ;------------------------------------------------     
  jugar2: 
- 
-    mov dword [posicion], 3
-    cmp dword [gato + 8], 51
-    je juega       
-    mov dword [posicion], 7
-    cmp dword [gato + 24], 55
-    je juega       
-    mov dword [posicion], 9
-    cmp dword [gato + 32], 57
-    je juega       
-    mov dword [posicion], 5
-    cmp dword [gato + 16], 53
-    je juega       
-    mov dword [posicion], 6
-    cmp dword [gato + 20], 54
-    je juega      
-    mov dword [posicion], 8
-    cmp dword [gato + 28], 56
-    je juega       
-    mov dword [posicion], 1
-    cmp dword [gato + 0], 49
-    je juega
-    mov dword [posicion], 4
-    cmp dword [gato + 12],52
-    je juega
-    mov dword [posicion], 2
-    cmp dword [gato + 4], 50
-    je juega
+    intArt 5,16   
+    intArt 7,24   
+    intArt 9,32  
+    intArt 3,8   
+    intArt 8,28  
+    intArt 1,0   
+    intArt 6,20   
+    intArt 4,12  
+    intArt 2,4   
     ret
     
  juega:    
@@ -266,22 +251,15 @@ estadoJuego:
     jmp fin
     
  player1:
-    push msgA
-    call _printf
-    add esp,4
+    printing msgA
     mov eax, 1
     mov [stop], eax
     jmp fin
         
  player2:
-    push msgB
-    call _printf
-    add esp,4
+    printing msgB
     mov eax, 1
     mov [stop], eax
     jmp fin
-
-
  fin:
-
 ret

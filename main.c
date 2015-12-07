@@ -1,8 +1,9 @@
+//#include <gtk/gtk.h>
 #include <stdio.h>
 #include <windows.h>
 
-extern int singlePlayer(int);
-extern int multiPlayer(int);
+extern void singlePlayer();
+extern void multiPlayer();
 
 void sleep (unsigned milliseconds){
     Sleep (milliseconds);
@@ -13,16 +14,15 @@ int main(){
 
     printf("Tipo de juego \n  1)Single Player \n  2)Multiplayer \n");
     scanf("%d", &num);
-    //printf("Modo seleccionado: %d", num);
 
-	if (num == 1){
-        int a = singlePlayer(10);
-        //printf("El singlePlayer de 10 es: %d\n", a);
+    if (num == 1){
+        singlePlayer();
+    }else if (num == 2){
+        multiPlayer();
     }else{
-        int b = multiPlayer(10);
-        //printf("La multiPlayer de 10 es: %d\n", b);
+        printf("Selecciom invalida, salgo de juego");
     }
 
-	sleep(10000);
-	return 0;
+    sleep(2500);
+    return 0;
 }
