@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1449461118 source:c:\users\oscar\desktop\examen3\main.c
+	<gtk/gtk.h>
+	<stdio.h>
+	<windows.h>
+
+1449461342 source:c:\users\oscar\desktop\examen3\test.c
+	<gtk/gtk.h>
+	<stdio.h>
+	<windows.h>
+
+1449462034 source:c:\users\oscar\documents\github\examen3assembly\test.c
+	<gtk/gtk.h>
+	<stdio.h>
+	<windows.h>
+
+1449565656 source:c:\users\oscar\documents\github\examen3assembly\main.c
+	<gtk/gtk.h>
+	<stdio.h>
+	<windows.h>
+	<stdlib.h>
+
