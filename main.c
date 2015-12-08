@@ -2,27 +2,42 @@
 #include <stdio.h>
 #include <windows.h>
 
-extern void singlePlayer();
-extern void multiPlayer();
+extern int player(int);
 
 void sleep (unsigned milliseconds){
     Sleep (milliseconds);
 }
 
 int main(){
-    int num;
+    int opt =0, win =0;
+    /*
+    gtk_init(&argc, &argv);
+    GtkWidget *window;
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit),NULL);
+    gtk_widget_show(window);
+    gtk_main();
+    */
 
     printf("Tipo de juego \n  1)Single Player \n  2)Multiplayer \n");
-    scanf("%d", &num);
+    scanf("%d", &opt);
 
-    if (num == 1){
-        singlePlayer();
-    }else if (num == 2){
-        multiPlayer();
+    if (opt == 1 || opt == 2){
+        win = player(opt);
     }else{
-        printf("Selecciom invalida, salgo de juego");
+        printf("Seleccion invalida, salgo de juego");
     }
 
-    sleep(2500);
+    if (win == 1){
+        printf("Fin del juego! Gano el jugador %d\n", win);
+    }else if(win == 2 && opt ==1){
+        printf("Fin del juego! Pierdes, la computadora ha ganado!\n");
+    }else if(win == 2 && opt ==2){
+        printf("Fin del juego! Gano el jugador %d\n", win);
+    }else if(win ==3){
+        printf("Empate, el juego finaliza sin ganadores :(\n");
+    }
+
+    sleep(4000);
     return 0;
 }
